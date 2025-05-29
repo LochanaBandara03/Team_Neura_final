@@ -2,8 +2,16 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+
+type NavItem = {
+  name: string;
+  path: string;
+  onClick?: () => void;
+};
 
 export default function Navbar() {
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -16,12 +24,39 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Submit Request', path: '/request' },
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Chat', path: '/chat' },
-  ];
+  const getNavItems = (): NavItem[] => {
+    const baseItems: NavItem[] = [
+      { name: 'Home', path: '/' },
+    ];
+
+    if (!user) {
+      return [
+        ...baseItems, 
+        { name: 'Submit Request', path: '/request' },
+        { name: 'Register', path: '/register' },
+        { name: 'Login', path: '/login' }
+      ];
+    }
+
+    const userItems: NavItem[] = user.role === 'affected_individual' 
+      ? [
+          { name: 'Submit Request', path: '/request' },
+          { name: 'Dashboard', path: '/dashboard' },
+          { name: 'Chat', path: '/chat' },
+        ]
+      : [
+          { name: 'Dashboard', path: '/dashboard' },
+          { name: 'Chat', path: '/chat' },
+        ];
+
+    return [
+      ...baseItems,
+      ...userItems,
+      { name: 'Logout', path: '#', onClick: logout }
+    ];
+  };
+
+  const navItems = getNavItems();
 
   return (
     <nav
@@ -47,13 +82,18 @@ export default function Navbar() {
                   strokeLinejoin="round"
                   strokeWidth={2}
                   d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
+                />              </svg>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               SafeBridge
             </span>
           </Link>
+
+          {/* User role badge */}          {user?.role && (
+            <span className="hidden md:inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300 ml-4">
+              {user.role.split('_').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+            </span>
+          )}
 
           {/* Mobile menu button */}
           <button
@@ -94,22 +134,32 @@ export default function Navbar() {
                   className="animate-fade-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <Link
-                    href={item.path}
-                    className={`group block py-2 pl-3 pr-4 rounded md:p-0 relative ${
-                      pathname === item.path
-                        ? 'text-blue-600 dark:text-blue-400'
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                    <span
-                      className={`absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300 ${
-                        pathname === item.path ? 'w-full' : 'w-0'
+                  {item.onClick ? (
+                    <button
+                      onClick={item.onClick}
+                      className="group block w-full text-left py-2 pl-3 pr-4 rounded md:p-0 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                    >
+                      {item.name}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                  ) : (
+                    <Link
+                      href={item.path}
+                      className={`group block py-2 pl-3 pr-4 rounded md:p-0 relative ${
+                        pathname === item.path
+                          ? 'text-blue-600 dark:text-blue-400'
+                          : 'text-gray-700 dark:text-gray-300'
                       }`}
-                    ></span>
-                  </Link>
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                      <span
+                        className={`absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300 ${
+                          pathname === item.path ? 'w-full' : 'w-0'
+                        }`}
+                      ></span>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

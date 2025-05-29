@@ -1,0 +1,29 @@
+[
+  {
+    "email": "responder@example.com",
+    "password": "password123",
+    "role": "first_responder"
+  },
+  {
+    "email": "volunteer@example.com",
+    "password": "password123",
+    "role": "volunteer"
+  },
+  {
+    "email": "individual@example.com",
+    "password": "password123",
+    "role": "affected_individual"
+  },
+  {
+    "email": "government@example.com",
+    "password": "password123",
+    "role": "government"
+  },
+  {
+    "email": "test@gmail.com",
+    "password": "test@123",
+    "fullName": "John Doe",
+    "location": "Gampaha",
+    "role": "volunteer"
+  }
+]

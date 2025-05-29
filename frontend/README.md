@@ -1,4 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SafeBridge - AI-Powered Disaster Response Platform
+
+This is a Next.js project for the SafeBridge platform, which connects affected individuals, volunteers, and first responders during disasters.
+
+## Demo Mode
+
+This application now runs in **demo mode** without requiring a backend server. All API requests are mocked with realistic data to demonstrate the platform's functionality.
+
+### Demo Accounts
+
+You can log in with any of the following test accounts:
+- **First Responder**: responder@example.com / password123
+- **Volunteer**: volunteer@example.com / password123
+- **Affected Individual**: individual@example.com / password123
+- **Government Official**: government@example.com / password123
 
 ## Getting Started
 

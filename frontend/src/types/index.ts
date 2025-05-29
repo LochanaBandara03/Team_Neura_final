@@ -1,3 +1,14 @@
+export interface EmergencyRequest {
+  id: string;
+  text: string;
+  urgency: 'High' | 'Medium' | 'Low' | 'Unknown';
+  type: 'Medical' | 'Food' | 'Shelter' | 'Evacuation' | 'Other' | 'Unknown';
+  location: string;
+  timestamp: string;
+  status: 'pending' | 'processing' | 'resolved';
+  lastUpdated?: string;
+}
+
 export interface HelpRequest {
   fullName: string;
   location: string;

@@ -1,74 +1,58 @@
-# SafeBridge - AI-Powered Disaster Response Platform (Backend)
+# SafeBridge Backend - Python Flask API
 
-## Overview
-This is the backend for the SafeBridge platform, a disaster response system that uses AI to categorize and prioritize emergency requests.
+This is the Flask-based backend API for the SafeBridge disaster response platform.
 
-## Tech Stack
-- **Node.js** with **Express** for the REST API
-- **MongoDB** for data storage
-- **OpenAI API** for analyzing emergency messages
-- **Mongoose** for MongoDB object modeling
+## Features
+
+- User authentication (login/register)
+- Emergency request submission and management
+- Volunteer registration
+- RESTful API endpoints
 
 ## Setup Instructions
 
 ### Prerequisites
-- Node.js 18+ installed
-- MongoDB installed and running (or access to MongoDB Atlas)
-
-### Environment Variables
-Create a `.env` file in the root directory with the following variables:
-```
-PORT=3001
-MONGODB_URI=mongodb://localhost:27017/safebridge
-OPENAI_API_KEY=your_openai_api_key
-```
+- Python 3.7+ installed
 
 ### Installation
 
 1. Install dependencies:
-```
-npm install
-```
-
-2. Seed the database with sample data:
-```
-npm run seed
+```bash
+pip install -r requirements.txt
 ```
 
-3. Start the development server:
-```
-npm run dev
+2. Start the server:
+```bash
+python app.py
 ```
 
-4. For production:
-```
-npm start
-```
+The server will run on port 3001 by default. You can change this in the `.env` file.
 
 ## API Endpoints
 
+### Authentication
+- `POST /api/login` - User login
+- `POST /api/register` - User registration
+
 ### Emergency Requests
 - `POST /api/submit-request` - Submit a new emergency request
-  - Body: `{ "text": "Emergency help needed for [name] at [location]. Details: [description]" }`
-
 - `GET /api/requests` - Get all emergency requests
+- `GET /api/requests/{id}` - Get a specific emergency request by ID
+- `PATCH /api/requests/{id}` - Update the status of a request
 
-- `GET /api/requests/:id` - Get a specific emergency request by ID
+### Volunteers
+- `POST /api/register-volunteer` - Register volunteer information
 
-- `PATCH /api/requests/:id` - Update the status of a request
-  - Body: `{ "status": "pending|processing|resolved" }`
+## Integration with Frontend
 
-## Data Model
+This backend is designed to work with the SafeBridge frontend. The frontend will communicate with these API endpoints to perform all necessary operations.
 
-### Emergency Request
+## Development
+
+To run the backend in development mode:
+
+```bash
+python app.py
 ```
-{
-  text: String,           // The original emergency message
-  urgency: String,        // High, Medium, Low, or Unknown
-  type: String,           // Medical, Food, Shelter, Evacuation, Other, or Unknown
-  location: String,       // Location extracted from the message
-  timestamp: Date,        // When the request was created
-  status: String,         // pending, processing, or resolved
-  lastUpdated: Date       // When the request was last updated
-}
-```
+
+This will start the server with debug mode enabled.

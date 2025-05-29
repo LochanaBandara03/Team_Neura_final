@@ -1,24 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { HelpRequest } from '@/types';
+import { HelpRequest, UrgencyLevel, HelpType } from '@/types';
 import { submitRequest, EmergencyRequest } from '@/services/api';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 
 export default function RequestPage() {
-  const router = useRouter();  const [formData, setFormData] = useState<HelpRequest>({
+  const router = useRouter();
+  const [formData, setFormData] = useState<HelpRequest>({
     fullName: '',
     location: '',
     description: '',
     urgency: 'Medium',
     type: 'Other',
-  });
-  const [loading, setLoading] = useState(false);
+  });  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [urgency, setUrgency] = useState<string>('');
-  const [helpType, setHelpType] = useState<string>('');  const handleSubmit = async (e: React.FormEvent) => {
+  const [helpType, setHelpType] = useState<string>('');
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
