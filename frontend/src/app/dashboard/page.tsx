@@ -7,6 +7,8 @@ import { EmergencyService, EmergencyRequest, ServiceResource, Volunteer } from '
 import Navbar from '@/components/Navbar';
 import ServiceDashboard from '@/components/ServiceDashboard';
 import DetailsView from '@/components/DetailsView';
+import VolunteerDashboard from '@/components/dashboards/VolunteerDashboard';
+import FirstResponderDashboard from '@/components/dashboards/FirstResponderDashboard';
 
 export default function DashboardPage() {
   const [selectedService, setSelectedService] = useState<EmergencyService>('police');
@@ -76,13 +78,19 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Service Dashboard */}
-          <ServiceDashboard
-            service={selectedService}
-            onRequestSelect={handleRequestSelect}
-            onResourceSelect={handleResourceSelect}
-            onVolunteerSelect={handleVolunteerSelect}
-          />
+          {/* Conditional Dashboard Rendering */}
+          {user?.role === 'volunteer' ? (
+            <VolunteerDashboard requests={[]} />
+          ) : user?.role === 'first_responder' ? (
+            <FirstResponderDashboard requests={[]} />
+          ) : (
+            <ServiceDashboard
+              service={selectedService}
+              onRequestSelect={handleRequestSelect}
+              onResourceSelect={handleResourceSelect}
+              onVolunteerSelect={handleVolunteerSelect}
+            />
+          )}
 
           {/* Details Modal */}
           {(selectedRequest || selectedResource || selectedVolunteer) && (
