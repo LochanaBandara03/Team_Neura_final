@@ -38,62 +38,65 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        {/* Service Selection */}
-        <div className="mb-8">
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setSelectedService('police')}
-              className={`px-6 py-3 rounded-lg font-medium ${
-                selectedService === 'police'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-              }`}
-            >
-              Police
-            </button>
-            <button
-              onClick={() => setSelectedService('ambulance')}
-              className={`px-6 py-3 rounded-lg font-medium ${
-                selectedService === 'ambulance'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-              }`}
-            >
-              Ambulance
-            </button>
-            <button
-              onClick={() => setSelectedService('firefighter')}
-              className={`px-6 py-3 rounded-lg font-medium ${
-                selectedService === 'firefighter'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-              }`}
-            >
-              Firefighter
-            </button>
-          </div>
-        </div>
-
-        {/* Service Dashboard */}
-        <ServiceDashboard
-          service={selectedService}
-          onRequestSelect={handleRequestSelect}
-          onResourceSelect={handleResourceSelect}
-          onVolunteerSelect={handleVolunteerSelect}
-        />
-
-        {/* Details Modal */}
-        {(selectedRequest || selectedResource || selectedVolunteer) && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-              <DetailsView
-                type={selectedRequest ? 'request' : selectedResource ? 'resource' : 'volunteer'}
-                data={selectedRequest || selectedResource || selectedVolunteer!}
-                onClose={handleCloseDetails}
-              />
+        {/* Add extra top margin for dashboard content separation from navbar */}
+        <div className="mt-12">
+          {/* Service Selection */}
+          <div className="mb-8">
+            <div className="flex space-x-4">
+              <button
+                onClick={() => setSelectedService('police')}
+                className={`px-6 py-3 rounded-lg font-medium ${
+                  selectedService === 'police'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                Police
+              </button>
+              <button
+                onClick={() => setSelectedService('ambulance')}
+                className={`px-6 py-3 rounded-lg font-medium ${
+                  selectedService === 'ambulance'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                Ambulance
+              </button>
+              <button
+                onClick={() => setSelectedService('firefighter')}
+                className={`px-6 py-3 rounded-lg font-medium ${
+                  selectedService === 'firefighter'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                Firefighter
+              </button>
             </div>
           </div>
-        )}
+
+          {/* Service Dashboard */}
+          <ServiceDashboard
+            service={selectedService}
+            onRequestSelect={handleRequestSelect}
+            onResourceSelect={handleResourceSelect}
+            onVolunteerSelect={handleVolunteerSelect}
+          />
+
+          {/* Details Modal */}
+          {(selectedRequest || selectedResource || selectedVolunteer) && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                <DetailsView
+                  type={selectedRequest ? 'request' : selectedResource ? 'resource' : 'volunteer'}
+                  data={selectedRequest || selectedResource || selectedVolunteer!}
+                  onClose={handleCloseDetails}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );
