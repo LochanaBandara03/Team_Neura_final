@@ -20,7 +20,7 @@ export default function ChatPage() {
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 mt-12">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           {/* Chat Tabs */}
           <div className="flex border-b border-gray-200 dark:border-gray-700">
@@ -47,7 +47,7 @@ export default function ChatPage() {
           </div>
 
           {/* Chat Content */}
-          <div className="p-4">
+          <div className="mt-6">
             {activeTab === 'ai' ? (
               <AIChat />
             ) : (
